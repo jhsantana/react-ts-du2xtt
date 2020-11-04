@@ -30,11 +30,14 @@ const App = () => {
     });
   }, []);
 
-  const removeFromList = () => {
+  const removeFromList = (idx?: Number) => {
     const element = document.getElementById("select") as HTMLSelectElement;
-    const index = element.value;
+    let index: Number = parseInt(element.value);
+    if (idx !== null) {
+      index = idx;
+    }
 
-    personagens.splice(parseInt(index), 1);
+    personagens.splice(index, 1);
 
     setPersonagens([...personagens]);
   };
@@ -51,7 +54,7 @@ const App = () => {
             ))}
           </select>
           <Button
-            onClick={removeFromList}
+            onClick={() => removeFromList(null)}
             color="transparent"
             icon={<FiTrash2 color="red" size={20} />}
           />
@@ -61,7 +64,11 @@ const App = () => {
       <S.Lista>
         {personagens.length > 0 &&
           personagens.map((personagem, index) => (
-            <Personagem {...personagem} key={index} onClick={removeFromList} />
+            <Personagem
+              {...personagem}
+              key={index}
+              onClick={() => removeFromList(index)}
+            />
           ))}
       </S.Lista>
     </main>
